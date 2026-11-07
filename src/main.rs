@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 mod clipboard;
 mod hotkey;
 mod snipping;
@@ -10,14 +12,9 @@ fn main() -> anyhow::Result<()> {
     if let Some(uri) = args.iter().find(|arg| {
         arg.starts_with("snipster://")
     }) {
-        println!("Snipster callback activation received.");
-
         snipping::handle_callback_uri(uri)?;
-
         return Ok(())
     }
-
-    println!("Snipster is starting...");
 
     hotkey::run()?;
 

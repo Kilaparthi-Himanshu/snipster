@@ -1,1 +1,22 @@
-/target
+
+# Rust build output
+/target/
+
+# IDE and editor
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Signing private keys - NEVER COMMIT
+*.pfx
+*.p12
+*.pvk
+*.key
+
+# Temporary package files
+*.msixupload
+*.appxupload
+*.blockmap
