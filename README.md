@@ -46,7 +46,7 @@ You can also install Snipster directly from the source repository.
 Clone the repository:
 
 ```powershell
-git clone https://github.com/OWNER/REPOSITORY.git
+git clone https://github.com/Kilaparthi-Himanshu/snipster.git
 cd REPOSITORY
 ```
 
@@ -84,7 +84,7 @@ Uninstall Snipster.bat
 Clone the repository:
 
 ```powershell
-git clone https://github.com/OWNER/REPOSITORY.git
+git clone https://github.com/Kilaparthi-Himanshu/snipster.git
 cd REPOSITORY
 ```
 
