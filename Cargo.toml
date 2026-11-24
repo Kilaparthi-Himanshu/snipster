@@ -1,11 +1,15 @@
 [package]
 name = "snipster"
-version = "0.1.0"
+version = "2.0.0"
 edition = "2024"
 
 [dependencies]
 anyhow = "1.0.104"
 url = "2.5"
+eframe = { version = "=0.35.0", default-features = false, features = ["default_fonts", "glow"] }
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+tray-icon = "0.26.1"
 
 [dependencies.image]
 version = "0.25"
@@ -26,4 +30,9 @@ features = [
     "Win32_System_Memory",
     "Win32_UI_WindowsAndMessaging",
     "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_System_Threading",
+    "Win32_Security",
+    "ApplicationModel",
+    "ApplicationModel_Activation",
+    "Win32_UI_WindowsAndMessaging",
 ]

@@ -20,3 +20,7 @@ Desktop.ini
 *.msixupload
 *.appxupload
 *.blockmap
+
+# Misc
+*.zip
+misc.md

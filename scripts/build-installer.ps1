@@ -13,7 +13,7 @@ New-Item -ItemType Directory -Path $installer -Force |
     Out-Null
 
 # --------------------------------------------------
-# 2. Build Rust executable
+# 2. Build Rust executables
 # --------------------------------------------------
 
 Write-Host "`n[1/7] Building Snipster..." -ForegroundColor Cyan
@@ -21,7 +21,7 @@ Write-Host "`n[1/7] Building Snipster..." -ForegroundColor Cyan
 Push-Location $root
 
 try {
-    cargo build --release
+    cargo build --release --bins
 
     if ($LASTEXITCODE -ne 0) {
         throw "Rust build failed."
@@ -37,15 +37,38 @@ finally {
 
 Write-Host "`n[2/7] Updating MSIX payload..." -ForegroundColor Cyan
 
+$payload = Join-Path $package "payload"
+
+# Main application
 Copy-Item `
     (Join-Path $root "target\release\snipster.exe") `
-    (Join-Path $package "payload\snipster.exe") `
+    (Join-Path $payload "snipster.exe") `
     -Force
 
+# Startup launcher
+Copy-Item `
+    (Join-Path $root "target\release\startup_launcher.exe") `
+    (Join-Path $payload "startup_launcher.exe") `
+    -Force
+
+# Package manifest
 Copy-Item `
     (Join-Path $package "Package.appxmanifest") `
-    (Join-Path $package "payload\AppxManifest.xml") `
+    (Join-Path $payload "AppxManifest.xml") `
     -Force
+
+# Verify required payload files
+$requiredFiles = @(
+    "snipster.exe",
+    "startup_launcher.exe",
+    "AppxManifest.xml"
+)
+
+foreach ($file in $requiredFiles) {
+    if (-not (Test-Path (Join-Path $payload $file))) {
+        throw "Required MSIX payload file missing: $file"
+    }
+}
 
 # --------------------------------------------------
 # 4. Locate Windows SDK tools
