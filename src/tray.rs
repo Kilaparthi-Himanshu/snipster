@@ -47,29 +47,17 @@ impl SnipsterTray {
 }
 
 fn create_icon() -> Result<Icon> {
-    // Temporary 32x32 purple icon.
-    // We'll replace this with the real Snipster branding later.
-    let size = 32u32;
-    let mut rgba = vec![0u8; (size * size * 4) as usize];
+    let image = image::load_from_memory(
+        include_bytes!("../assets/icons/app-icon-48.png")
+    )?
+    .into_rgba8();
 
-    for y in 0..size {
-        for x in 0..size {
-            let offset = ((y * size + x) * 4) as usize;
+    let (width, height) = image.dimensions();
 
-            let dx = x as i32 - 16;
-            let dy = y as i32 - 16;
-
-            let inside_circle = dx * dx + dy * dy <= 14 * 14;
-
-            if inside_circle {
-                rgba[offset] = 130;
-                rgba[offset + 1] = 90;
-                rgba[offset + 2] = 240;
-                rgba[offset + 3] = 255;
-            }
-        }
-    }
-
-    Icon::from_rgba(rgba, size, size)
-        .context("Could not create tray icon image")
+    Icon::from_rgba(
+        image.into_raw(),
+        width,
+        height,
+    )
+    .context("Could not create Snipster tray icon")
 }

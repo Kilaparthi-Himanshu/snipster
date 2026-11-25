@@ -36,3 +36,6 @@ features = [
     "ApplicationModel_Activation",
     "Win32_UI_WindowsAndMessaging",
 ]
+
+[build-dependencies]
+embed-resource = "3"

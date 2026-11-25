@@ -57,7 +57,32 @@ Copy-Item `
     (Join-Path $payload "AppxManifest.xml") `
     -Force
 
+# --------------------------------------------------
+# Copy MSIX visual assets
+# --------------------------------------------------
+
+$SourceAssets = Join-Path $package "Assets"
+$PayloadAssets = Join-Path $payload "Assets"
+
+if (!(Test-Path $SourceAssets)) {
+    throw "MSIX assets directory not found: $SourceAssets"
+}
+
+New-Item -ItemType Directory -Path $PayloadAssets -Force | Out-Null
+
+Copy-Item `
+    -Path "$SourceAssets\*" `
+    -Destination $PayloadAssets `
+    -Recurse `
+    -Force
+
+Write-Host "Copied MSIX visual assets:" -ForegroundColor Green
+Get-ChildItem $PayloadAssets
+
+# --------------------------------------------------
 # Verify required payload files
+# --------------------------------------------------
+
 $requiredFiles = @(
     "snipster.exe",
     "startup_launcher.exe",
@@ -148,6 +173,8 @@ Copy-Item `
 
 # Copy installation and uninstallation scripts.
 $installerScripts = @(
+    "LICENSE",
+    "README.txt",
     "Install Snipster.bat",
     "Install-Snipster.ps1",
     "Uninstall Snipster.bat",

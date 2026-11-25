@@ -494,7 +494,7 @@ impl SnipsterApp {
         ui.add_space(12.0);
 
         ui.label(
-            egui::RichText::new("Version 0.1.0")
+            egui::RichText::new("Version 2.0.0")
                 .weak(),
         );
 

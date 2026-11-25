@@ -35,6 +35,7 @@ fn main() -> anyhow::Result<()> {
             .with_inner_size([760.0, 520.0])
             .with_min_inner_size([650.0, 450.0])
             .with_title("Snipster")
+            .with_icon(load_app_icon())
             .with_visible(!launched_at_startup),
         ..Default::default()
     };
@@ -56,4 +57,20 @@ fn main() -> anyhow::Result<()> {
     .map_err(|error| anyhow::anyhow!("{error}"))?;
 
     Ok(())
+}
+
+fn load_app_icon() -> eframe::egui::IconData {
+    let image = image::load_from_memory(
+        include_bytes!("../assets/icons/app-icon-256.png")
+    )
+    .expect("Failed to load Snipster icon")
+    .into_rgba8();
+
+    let (width, height) = image.dimensions();
+
+    eframe::egui::IconData {
+        rgba: image.into_raw(),
+        width,
+        height,
+    }
 }

@@ -45,7 +45,29 @@ try {
 
     Write-Host ""
     Write-Host "Snipster installed successfully!" -ForegroundColor Green
-    Write-Host "Find Snipster in the Windows Start menu."
+
+    # Find the newly installed application.
+    $app = Get-AppxPackage -Name "Snipster" |
+        Sort-Object Version -Descending |
+        Select-Object -First 1
+
+    if (-not $app) {
+        throw "Installation succeeded, but Snipster could not be located."
+    }
+
+    # Construct the application's Windows activation ID.
+    $appId = "$($app.PackageFamilyName)!Snipster"
+
+    Write-Host "Launching Snipster..." -ForegroundColor Cyan
+
+    # Launch through Windows Explorer so the app starts
+    # through normal Windows application activation.
+    Start-Process -FilePath "$env:WINDIR\explorer.exe" `
+        -ArgumentList "shell:AppsFolder\$appId"
+
+    Write-Host ""
+    Write-Host "Snipster is now running in your system tray!" -ForegroundColor Green
+    Write-Host "Press Win + Ctrl + Shift + S to capture a screenshot."
 }
 catch {
     Write-Host ""
